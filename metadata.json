@@ -1,0 +1,8 @@
+{
+  "name": "Stone Evolution: Interactive Experience",
+  "description": "A dedicated interactive visualization exploring the internal structure of stone. Connect via Arduino, Audio, or Keyboard to evolve the geometric patterns.",
+  "requestFramePermissions": [
+    "microphone",
+    "serial"
+  ]
+}
