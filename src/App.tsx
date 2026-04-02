@@ -842,11 +842,19 @@ export default function App() {
           // Step 12 Grid Positions
           const step10Rx = [0, size / 4, size / 2][Math.floor(Math.random() * 3)];
 
+          const jitterSeedX = Math.random() - 0.5;
+          const jitterSeedY = Math.random() - 0.5;
+          const dotSeeds = Array.from({ length: 40 }, () => ({
+            x: Math.random(),
+            y: Math.random(),
+            r: Math.random()
+          }));
+          
           blocks.push({ 
             id: `b8-${x}-${y}-${depth}`, 
             x, y, size, color, opacity, hasDots, dotCount, depth, textureType,
             isShimmering, shimmerColor, rotation, driftX, driftY, coordLabel,
-            step10Rx, blockTexture,
+            step10Rx, blockTexture, jitterSeedX, jitterSeedY, dotSeeds,
             hue: hsl.h, saturation: hsl.s, lightness: hsl.l
           });
         }
@@ -2058,10 +2066,10 @@ export default function App() {
                     <motion.g 
                       key={block.id}
                       animate={{
-                        x: targetX - block.x + (isStep10 ? (block.size - stoneWidth) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? (Math.random() - 0.5) * Math.pow(arduinoData.complexity, 0.7) * 80 * sensitivity : 0),
-                        y: targetY - block.y + (isStep10 ? (block.size - stoneHeight) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? (Math.random() - 0.5) * Math.pow(arduinoData.complexity, 0.7) * 80 * sensitivity : 0),
-                        scale: targetScale * ((isSerialConnected || isListening || inputMode === 'keyboard') ? (0.6 + Math.pow(arduinoData.interfaceCount, 0.5) * 1.2 * sensitivity) : 1),
-                        rotate: targetRotate + (isStep10 && block.stoneType === 'rhombus' ? 45 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? arduinoData.hardness * 360 * sensitivity : 0),
+                        x: targetX - block.x + (isStep10 ? (block.size - stoneWidth) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') && step < 11 ? block.jitterSeedX * Math.pow(arduinoData.complexity, 0.7) * 80 * sensitivity : 0),
+                        y: targetY - block.y + (isStep10 ? (block.size - stoneHeight) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') && step < 11 ? block.jitterSeedY * Math.pow(arduinoData.complexity, 0.7) * 80 * sensitivity : 0),
+                        scale: targetScale * ((isSerialConnected || isListening || inputMode === 'keyboard') && step < 11 ? (0.6 + Math.pow(arduinoData.interfaceCount, 0.5) * 1.2 * sensitivity) : 1),
+                        rotate: targetRotate + (isStep10 && block.stoneType === 'rhombus' ? 45 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') && step < 11 ? arduinoData.hardness * 360 * sensitivity : 0),
                         opacity: finalOpacity
                       }}
                       transition={{ 
@@ -2195,7 +2203,7 @@ export default function App() {
                       </motion.g>
 
                       {/* Coordinate Labels for Step 6 & 7 */}
-                      {(isStep6 || isStep7) && Math.random() > 0.7 && (
+                      {(isStep6 || isStep7) && idx % 4 === 0 && (
                         <text
                           x={block.x + block.size + 2}
                           y={block.y + block.size / 2}
@@ -2248,9 +2256,9 @@ export default function App() {
                       {block.hasDots && Array.from({ length: (isSerialConnected || isListening || inputMode === 'keyboard') ? Math.floor(Math.pow(arduinoData.activity, 0.6) * 40) : block.dotCount }).map((_, i) => (
                         <circle
                           key={`${block.id}-dot-${i}`}
-                          cx={block.x + Math.random() * block.size}
-                          cy={block.y + Math.random() * block.size}
-                          r={0.5 + Math.random() * 1.5}
+                          cx={block.x + (block.dotSeeds?.[i]?.x || 0.5) * block.size}
+                          cy={block.y + (block.dotSeeds?.[i]?.y || 0.5) * block.size}
+                          r={0.5 + (block.dotSeeds?.[i]?.r || 0.5) * 1.5}
                           fill="rgba(150,150,150,0.3)"
                         />
                       ))}
