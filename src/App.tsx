@@ -41,6 +41,7 @@ export default function App() {
   const [connectionLog, setConnectionLog] = useState<string[]>([]);
   const [rawSerialLines, setRawSerialLines] = useState<string[]>([]);
   const [inputMode, setInputMode] = useState<'serial' | 'audio' | 'keyboard'>('serial');
+  const [stoneProfile, setStoneProfile] = useState<'large' | 'small'>('large');
   const [showTroubleshooter, setShowTroubleshooter] = useState(false);
   const [showStatusOverlay, setShowStatusOverlay] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -772,12 +773,21 @@ export default function App() {
     return () => clearInterval(interval);
   }, [step]);
   const step8Blocks = useMemo(() => {
-    const palette = [
-      "#70C1D1", "#A0E0E6", "#4A90E2", // Blues
-      "#8FBC8F", "#556B2F", "#BDB76B", // Greens
-      "#D1D1D1", "#A9A9A9", "#808080", // Grays
-      "#FFDAB9", "#F4A460", "#FFF5EE", // Accents
+    const largePalette = [
+      "#2C3E50", "#34495E", "#16A085", // Deep Teals/Grays
+      "#7F8C8D", "#95A5A6", "#273746", // Heavy Grays
+      "#D35400", "#E67E22", "#A04000", // Deep Ochre/Burnt Orange
+      "#1B2631", "#212F3C", "#283747", // Darker accents
     ];
+
+    const smallPalette = [
+      "#70C1D1", "#A0E0E6", "#4A90E2", // Bright Blues
+      "#8FBC8F", "#D5F5E3", "#ABEBC6", // Light Greens/Mints
+      "#FAD7A0", "#FDEBD0", "#FEF9E7", // Pale Sands/Creams
+      "#EBDEF0", "#D7BDE2", "#F5EEF8", // Soft Purples
+    ];
+
+    const palette = stoneProfile === 'large' ? largePalette : smallPalette;
 
     const getFluorescentColor = (hex: string) => {
       const r = parseInt(hex.slice(1, 3), 16);
@@ -863,9 +873,9 @@ export default function App() {
     subdivide(-100, -100, 1000, 0);
 
     // Center the grid positions after all blocks are generated
-    const gridCols = 10;
+    const gridCols = stoneProfile === 'large' ? 8 : 12;
     const cellW = 600 / gridCols;
-    const cellH = 800 / 10; // Base cell height
+    const cellH = 800 / (stoneProfile === 'large' ? 8 : 12); // Base cell height
     const totalRows = Math.ceil(blocks.length / gridCols);
     const startX = (600 - gridCols * cellW) / 2;
     const startY = (800 - totalRows * cellH) / 2;
@@ -881,66 +891,66 @@ export default function App() {
       // Step 10 Stack Positions (Vertical Stone Stack)
       // We want them to stack vertically in the center
       const stackCenterY = 400;
-      const stackHeight = totalRows * 40;
-      block.stackX = 300 - block.size / 2 + (Math.sin(row * 0.5) * 15); // Slight organic wobble
-      block.stackY = (800 - stackHeight) / 2 + row * 45;
-      block.stackSize = 40 + (Math.random() * 20); // More uniform stone size
+      const stackHeight = totalRows * (stoneProfile === 'large' ? 50 : 30);
+      block.stackX = 300 - block.size / 2 + (Math.sin(row * 0.5) * (stoneProfile === 'large' ? 20 : 10)); // Organic wobble
+      block.stackY = (800 - stackHeight) / 2 + row * (stoneProfile === 'large' ? 55 : 35);
+      block.stackSize = (stoneProfile === 'large' ? 60 : 30) + (Math.random() * 20); // More uniform stone size
       
       // Diverse shapes for Step 10
       const stoneTypes = ['circle', 'square', 'ellipse', 'rhombus', 'organic'];
       block.stoneType = stoneTypes[row % stoneTypes.length];
-      block.stoneWidthScale = 0.8 + Math.random() * 0.6; // For ellipses and varying widths
-      block.stoneHeightScale = 0.7 + Math.random() * 0.4;
+      block.stoneWidthScale = (stoneProfile === 'large' ? 0.9 : 0.7) + Math.random() * 0.6; 
+      block.stoneHeightScale = (stoneProfile === 'large' ? 0.8 : 0.6) + Math.random() * 0.4;
 
       // Step 11 Fusion Position (Single Large Stone)
       // We converge everything to the center with high overlap
-      block.fusionX = 300 - block.size / 2 + (Math.random() - 0.5) * 40;
-      block.fusionY = 400 - block.size / 2 + (Math.random() - 0.5) * 40;
-      block.fusionScale = 3.5 + Math.random() * 1.5;
-      block.fusionRotate = (Math.random() - 0.5) * 25;
+      block.fusionX = 300 - block.size / 2 + (Math.random() - 0.5) * (stoneProfile === 'large' ? 60 : 30);
+      block.fusionY = 400 - block.size / 2 + (Math.random() - 0.5) * (stoneProfile === 'large' ? 60 : 30);
+      block.fusionScale = (stoneProfile === 'large' ? 4 : 3) + Math.random() * 1.5;
+      block.fusionRotate = (Math.random() - 0.5) * (stoneProfile === 'large' ? 15 : 45);
 
       // Step 12: Split into two shapes (Tall/Slender and Short/Plump)
       const isTallGroup = idx % 2 === 0;
       if (isTallGroup) {
         // Tall and Slender (Left-ish, vertically stretched cluster)
         block.splitX = 250 - block.size / 2 + (Math.random() - 0.5) * 15;
-        block.splitY = 400 - (idx % 15) * 12 + (Math.random() - 0.5) * 10;
-        block.splitScale = 2.8 + Math.random() * 0.8;
+        block.splitY = 400 - (idx % 15) * (stoneProfile === 'large' ? 15 : 8) + (Math.random() - 0.5) * 10;
+        block.splitScale = (stoneProfile === 'large' ? 3 : 2) + Math.random() * 0.8;
         block.splitRotate = (Math.random() - 0.5) * 8;
         // Merge position for Step 12 (Coming together)
         block.mergeX = 290 - block.size / 2 + (Math.random() - 0.5) * 10;
-        block.mergeY = 400 - (idx % 15) * 10 + (Math.random() - 0.5) * 5;
+        block.mergeY = 400 - (idx % 15) * (stoneProfile === 'large' ? 12 : 6) + (Math.random() - 0.5) * 5;
       } else {
         // Short and Plump (Right-ish, horizontally compact cluster)
         block.splitX = 350 - block.size / 2 + (Math.random() - 0.5) * 45;
-        block.splitY = 410 - (idx % 8) * 4 + (Math.random() - 0.5) * 15;
-        block.splitScale = 3.2 + Math.random() * 1.2;
+        block.splitY = 410 - (idx % 8) * (stoneProfile === 'large' ? 6 : 3) + (Math.random() - 0.5) * 15;
+        block.splitScale = (stoneProfile === 'large' ? 3.5 : 2.5) + Math.random() * 1.2;
         block.splitRotate = (Math.random() - 0.5) * 35;
         // Merge position for Step 12 (Coming together)
         block.mergeX = 310 - block.size / 2 + (Math.random() - 0.5) * 20;
-        block.mergeY = 405 - (idx % 8) * 3 + (Math.random() - 0.5) * 8;
+        block.mergeY = 405 - (idx % 8) * (stoneProfile === 'large' ? 5 : 2) + (Math.random() - 0.5) * 8;
       }
 
       // Step 13: Twin Geometric Shapes (Left: Slender, Right: Plump)
       if (isTallGroup) {
         // Slender and elongated (Left)
         block.twinX = 285 - block.size / 2;
-        block.twinY = 400 - (idx % 15) * 10;
-        block.twinScale = 2.4;
+        block.twinY = 400 - (idx % 15) * (stoneProfile === 'large' ? 10 : 5);
+        block.twinScale = stoneProfile === 'large' ? 2.4 : 1.8;
         block.twinRotate = 0;
-        block.twinRx = 2; // Minimal rounding for geometric look
+        block.twinRx = stoneProfile === 'large' ? 2 : 10; 
       } else {
         // Shorter and plumper (Right)
         block.twinX = 315 - block.size / 2;
-        block.twinY = 405 - (idx % 8) * 5;
-        block.twinScale = 3.2;
+        block.twinY = 405 - (idx % 8) * (stoneProfile === 'large' ? 5 : 3);
+        block.twinScale = stoneProfile === 'large' ? 3.2 : 2.4;
         block.twinRotate = 0;
-        block.twinRx = 2;
+        block.twinRx = stoneProfile === 'large' ? 2 : 10;
       }
     });
 
     return blocks;
-  }, []);
+  }, [paperVertices, stoneProfile]);
 
   return (
     <div 
@@ -1023,6 +1033,24 @@ export default function App() {
                 </p>
                 
                 <div className="flex flex-col gap-4">
+                  <div className="space-y-2 mb-4">
+                    <p className="text-[8px] font-black text-black/30 uppercase tracking-[0.2em] text-center">Select Stone Type</p>
+                    <div className="flex gap-2 p-1 bg-black/5 rounded-2xl border border-black/5">
+                      <button 
+                        onClick={() => setStoneProfile('large')}
+                        className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${stoneProfile === 'large' ? 'bg-white shadow-md text-black' : 'text-black/40 hover:text-black/60'}`}
+                      >
+                        Large Stone
+                      </button>
+                      <button 
+                        onClick={() => setStoneProfile('small')}
+                        className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${stoneProfile === 'small' ? 'bg-white shadow-md text-black' : 'text-black/40 hover:text-black/60'}`}
+                      >
+                        Small Stone
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="flex gap-2 p-1 bg-black/5 rounded-2xl border border-black/5 mb-4">
                     <button 
                       onClick={() => setInputMode('serial')}
@@ -1573,6 +1601,27 @@ export default function App() {
           </div>
 
           <div className="space-y-3">
+            <div className="space-y-1 mb-4">
+              <div className="flex justify-between text-[8px] font-bold text-white/40">
+                <span>STONE PROFILE</span>
+                <span className="text-white uppercase">{stoneProfile}</span>
+              </div>
+              <div className="flex gap-1 p-0.5 bg-white/5 rounded-lg border border-white/5">
+                <button 
+                  onClick={() => setStoneProfile('large')}
+                  className={`flex-1 py-1 rounded-md text-[7px] font-black uppercase tracking-widest transition-all ${stoneProfile === 'large' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
+                >
+                  Large
+                </button>
+                <button 
+                  onClick={() => setStoneProfile('small')}
+                  className={`flex-1 py-1 rounded-md text-[7px] font-black uppercase tracking-widest transition-all ${stoneProfile === 'small' ? 'bg-white text-black' : 'text-white/40 hover:text-white'}`}
+                >
+                  Small
+                </button>
+              </div>
+            </div>
+
             <div className="space-y-1 mb-4">
               <div className="flex justify-between text-[8px] font-bold text-white/40">
                 <span>SENSITIVITY</span>
