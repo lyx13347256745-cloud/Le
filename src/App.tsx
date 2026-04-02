@@ -510,7 +510,7 @@ export default function App() {
         // Add to data log (keep last 50 points)
         setDataLog(prev => [...prev.slice(-49), { time: new Date().toLocaleTimeString(), ...newData }]);
 
-        if (vol > 0.3) {
+        if (vol > 0.35) {
           const now = Date.now();
           if (now - lastTriggerTime.current > 1200) {
             setStep(prev => (prev < 13 ? prev + 1 : prev));
@@ -1602,7 +1602,7 @@ export default function App() {
                     transition={{ type: "spring", stiffness: 100, damping: 20 }}
                   />
                   {s.isTrigger && (
-                    <div className="absolute top-0 left-[30%] w-px h-full bg-red-500/50 z-10" title="Trigger Threshold" />
+                    <div className="absolute top-0 left-[35%] w-px h-full bg-red-500/50 z-10" title="Trigger Threshold" />
                   )}
                 </div>
               </div>
@@ -1732,48 +1732,48 @@ export default function App() {
 
             {/* Subtle Micro-grid Pattern */}
             <pattern id="microGrid" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-              <path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="0.5"/>
+              <path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(150,150,150,0.05)" strokeWidth="0.5"/>
             </pattern>
 
             {/* Dense Etching Pattern for Step 7 */}
             <pattern id="denseEtching" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-              <path d="M 0 2 L 12 10 M 2 0 L 10 12 M 0 6 L 12 6 M 6 0 L 6 12" stroke="rgba(0,0,0,0.15)" strokeWidth="0.2"/>
-              <path d="M 0 0 L 12 12 M 12 0 L 0 12" stroke="rgba(0,0,0,0.1)" strokeWidth="0.1"/>
+              <path d="M 0 2 L 12 10 M 2 0 L 10 12 M 0 6 L 12 6 M 6 0 L 6 12" stroke="rgba(150,150,150,0.15)" strokeWidth="0.2"/>
+              <path d="M 0 0 L 12 12 M 12 0 L 0 12" stroke="rgba(150,150,150,0.1)" strokeWidth="0.1"/>
             </pattern>
 
             {/* Stipple Pattern for Step 7 */}
             <pattern id="stipple" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
-              <circle cx="1" cy="1" r="0.4" fill="rgba(0,0,0,0.1)" />
-              <circle cx="3" cy="3" r="0.3" fill="rgba(0,0,0,0.05)" />
+              <circle cx="1" cy="1" r="0.4" fill="rgba(150,150,150,0.1)" />
+              <circle cx="3" cy="3" r="0.3" fill="rgba(150,150,150,0.05)" />
             </pattern>
 
             {/* Woodcut Texture Pattern */}
             <pattern id="woodcut" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
-              <path d="M 0 5 Q 5 0, 10 5 T 20 5" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="0.8"/>
-              <path d="M 0 15 Q 5 10, 10 15 T 20 15" fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth="0.5"/>
-              <path d="M 5 0 L 5 20" fill="none" stroke="rgba(0,0,0,0.03)" strokeWidth="0.3"/>
+              <path d="M 0 5 Q 5 0, 10 5 T 20 5" fill="none" stroke="rgba(150,150,150,0.08)" strokeWidth="0.8"/>
+              <path d="M 0 15 Q 5 10, 10 15 T 20 15" fill="none" stroke="rgba(150,150,150,0.05)" strokeWidth="0.5"/>
+              <path d="M 5 0 L 5 20" fill="none" stroke="rgba(150,150,150,0.03)" strokeWidth="0.3"/>
             </pattern>
 
             {/* Stone Texture Pattern */}
             <pattern id="stoneTexture" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
               <rect width="100" height="100" fill="transparent" />
-              <path d="M 0 20 Q 25 5, 50 20 T 100 10" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1" opacity="0.5" />
-              <path d="M 10 0 Q 5 25, 20 50 T 10 100" fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth="1" opacity="0.5" />
-              <circle cx="30" cy="70" r="12" fill="rgba(0,0,0,0.03)" />
-              <circle cx="80" cy="40" r="8" fill="rgba(0,0,0,0.04)" />
-              <path d="M 40 40 L 45 45 M 60 60 L 65 65" stroke="rgba(0,0,0,0.1)" strokeWidth="0.5" />
+              <path d="M 0 20 Q 25 5, 50 20 T 100 10" fill="none" stroke="rgba(150,150,150,0.08)" strokeWidth="1" opacity="0.5" />
+              <path d="M 10 0 Q 5 25, 20 50 T 10 100" fill="none" stroke="rgba(150,150,150,0.08)" strokeWidth="1" opacity="0.5" />
+              <circle cx="30" cy="70" r="12" fill="rgba(150,150,150,0.03)" />
+              <circle cx="80" cy="40" r="8" fill="rgba(150,150,150,0.04)" />
+              <path d="M 40 40 L 45 45 M 60 60 L 65 65" stroke="rgba(150,150,150,0.1)" strokeWidth="0.5" />
             </pattern>
 
             {/* Gritty Noise Pattern */}
             <pattern id="grittyTexture" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
               <rect width="4" height="4" fill="transparent" />
-              <circle cx="1" cy="1" r="0.5" fill="rgba(0,0,0,0.15)" />
-              <circle cx="3" cy="2" r="0.3" fill="rgba(0,0,0,0.1)" />
+              <circle cx="1" cy="1" r="0.5" fill="rgba(150,150,150,0.15)" />
+              <circle cx="3" cy="2" r="0.3" fill="rgba(150,150,150,0.1)" />
             </pattern>
 
             {/* Wavy/Rippled Texture */}
             <pattern id="wavyTexture" x="0" y="0" width="20" height="10" patternUnits="userSpaceOnUse">
-              <path d="M 0 5 Q 5 0, 10 5 T 20 5" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="0.5" opacity="0.4" />
+              <path d="M 0 5 Q 5 0, 10 5 T 20 5" fill="none" stroke="rgba(150,150,150,0.1)" strokeWidth="0.5" opacity="0.4" />
             </pattern>
 
             {/* Subtle Gradient for the Shape */}
@@ -1786,14 +1786,14 @@ export default function App() {
             {/* Newspaper Text Pattern */}
             <pattern id="newspaperText" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
               <rect width="40" height="40" fill="rgba(255,255,255,0.1)" />
-              <path d="M 5 10 L 35 10 M 5 15 L 30 15 M 5 20 L 35 20 M 5 25 L 25 25 M 5 30 L 35 30" stroke="rgba(0,0,0,0.2)" strokeWidth="1" />
+              <path d="M 5 10 L 35 10 M 5 15 L 30 15 M 5 20 L 35 20 M 5 25 L 25 25 M 5 30 L 35 30" stroke="rgba(150,150,150,0.2)" strokeWidth="1" />
             </pattern>
 
             {/* Radial Gear/Mandala Pattern */}
             <pattern id="radialCutout" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
-              <circle cx="15" cy="15" r="12" fill="none" stroke="rgba(0,0,0,0.15)" strokeWidth="0.5" strokeDasharray="2,2" />
-              <circle cx="15" cy="15" r="8" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="1" strokeDasharray="1,3" />
-              <path d="M 15 3 L 15 27 M 3 15 L 27 15 M 6 6 L 24 24 M 6 24 L 24 6" stroke="rgba(0,0,0,0.1)" strokeWidth="0.5" />
+              <circle cx="15" cy="15" r="12" fill="none" stroke="rgba(150,150,150,0.15)" strokeWidth="0.5" strokeDasharray="2,2" />
+              <circle cx="15" cy="15" r="8" fill="none" stroke="rgba(150,150,150,0.1)" strokeWidth="1" strokeDasharray="1,3" />
+              <path d="M 15 3 L 15 27 M 3 15 L 27 15 M 6 6 L 24 24 M 6 24 L 24 6" stroke="rgba(150,150,150,0.1)" strokeWidth="0.5" />
             </pattern>
           </defs>
 
@@ -2058,10 +2058,10 @@ export default function App() {
                     <motion.g 
                       key={block.id}
                       animate={{
-                        x: targetX - block.x + (isStep10 ? (block.size - stoneWidth) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? (Math.random() - 0.5) * arduinoData.complexity * 40 * sensitivity : 0),
-                        y: targetY - block.y + (isStep10 ? (block.size - stoneHeight) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? (Math.random() - 0.5) * arduinoData.complexity * 40 * sensitivity : 0),
-                        scale: targetScale * ((isSerialConnected || isListening || inputMode === 'keyboard') ? (0.7 + arduinoData.interfaceCount * 0.6 * sensitivity) : 1),
-                        rotate: targetRotate + (isStep10 && block.stoneType === 'rhombus' ? 45 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? arduinoData.hardness * 180 * sensitivity : 0),
+                        x: targetX - block.x + (isStep10 ? (block.size - stoneWidth) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? (Math.random() - 0.5) * Math.pow(arduinoData.complexity, 0.7) * 80 * sensitivity : 0),
+                        y: targetY - block.y + (isStep10 ? (block.size - stoneHeight) / 2 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? (Math.random() - 0.5) * Math.pow(arduinoData.complexity, 0.7) * 80 * sensitivity : 0),
+                        scale: targetScale * ((isSerialConnected || isListening || inputMode === 'keyboard') ? (0.6 + Math.pow(arduinoData.interfaceCount, 0.5) * 1.2 * sensitivity) : 1),
+                        rotate: targetRotate + (isStep10 && block.stoneType === 'rhombus' ? 45 : 0) + ((isSerialConnected || isListening || inputMode === 'keyboard') ? arduinoData.hardness * 360 * sensitivity : 0),
                         opacity: finalOpacity
                       }}
                       transition={{ 
@@ -2087,17 +2087,17 @@ export default function App() {
                           y={block.y}
                           width={stoneWidth}
                           height={stoneHeight}
-                          rx={(isSerialConnected || isListening || inputMode === 'keyboard') ? (arduinoData.porosity < 0.3 ? 2 : (arduinoData.porosity < 0.7 ? stoneWidth/2 : 0)) : targetRx}
+                          rx={(isSerialConnected || isListening || inputMode === 'keyboard') ? (arduinoData.porosity < 0.2 ? 0 : (arduinoData.porosity < 0.5 ? stoneWidth/2 : (arduinoData.porosity < 0.8 ? stoneWidth/4 : 0))) : targetRx}
                           fill={block.color}
                           opacity={isStep8 ? 0.8 : block.opacity}
-                          stroke={isStep8 ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.1)"}
+                          stroke={isStep8 ? "rgba(255,255,255,0.4)" : "rgba(100,100,100,0.1)"}
                           strokeWidth={isStep8 ? "1" : "0.2"}
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ 
                             opacity: isStep8 ? 0.8 : (step >= 3 && block.isShimmering ? [block.opacity, 0.05, block.opacity] : block.opacity),
                             filter: (step === 11 || step === 12) ? "url(#inkFilter)" : (isStep8 ? `drop-shadow(0 0 8px ${block.color})` : 'none'),
-                            // Reduced Arduino Driven Saturation (Density) - smaller correlation, original palette
-                            fill: (isSerialConnected || isListening || inputMode === 'keyboard') ? `hsl(${block.hue}, ${block.saturation * (0.85 + arduinoData.density * 0.15)}%, ${block.lightness}%)` : block.color
+                            // Enhanced Hue shift with sound, while keeping overall saturation low and avoiding black
+                            fill: (isSerialConnected || isListening || inputMode === 'keyboard') ? `hsl(${block.hue + (arduinoData.density * 180)}, ${block.saturation * 0.4 * (0.5 + arduinoData.density * 1.5)}%, ${Math.max(40, block.lightness)}%)` : block.color
                           }}
                           transition={{ 
                             duration: 3, 
@@ -2168,7 +2168,7 @@ export default function App() {
                               width={block.size * 0.3}
                               height={block.size * 0.3}
                               rx={targetRx * 0.3}
-                              fill="rgba(0,0,0,0.1)"
+                              fill="rgba(150,150,150,0.1)"
                               opacity={isStep7 ? 0.2 : 0.1}
                               animate={isStep9 ? {
                                 scale: [1, 1.2, 1],
@@ -2201,7 +2201,7 @@ export default function App() {
                           y={block.y + block.size / 2}
                           fontSize="4"
                           fontFamily="monospace"
-                          fill="rgba(0,0,0,0.6)"
+                          fill="rgba(100,100,100,0.6)"
                           style={{ pointerEvents: 'none' }}
                         >
                           {block.coordLabel}
@@ -2245,13 +2245,13 @@ export default function App() {
                           transition={{ duration: 4, delay: Math.random() * 0.5 }}
                         />
                       )}
-                      {block.hasDots && Array.from({ length: (isSerialConnected || isListening || inputMode === 'keyboard') ? Math.floor(arduinoData.activity * 20) : block.dotCount }).map((_, i) => (
+                      {block.hasDots && Array.from({ length: (isSerialConnected || isListening || inputMode === 'keyboard') ? Math.floor(Math.pow(arduinoData.activity, 0.6) * 40) : block.dotCount }).map((_, i) => (
                         <circle
                           key={`${block.id}-dot-${i}`}
                           cx={block.x + Math.random() * block.size}
                           cy={block.y + Math.random() * block.size}
-                          r={0.5 + Math.random() * 1}
-                          fill="rgba(0,0,0,0.2)"
+                          r={0.5 + Math.random() * 1.5}
+                          fill="rgba(150,150,150,0.3)"
                         />
                       ))}
                     </motion.g>
@@ -2281,8 +2281,8 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* Compact Integrated Navigation (Bottom Right of screen) */}
-      <div className="fixed bottom-8 right-8 z-50 flex items-center bg-black/40 backdrop-blur-xl rounded-lg border border-white/20 overflow-hidden shadow-2xl">
+      {/* Compact Integrated Navigation (Bottom Center of screen) */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center bg-black/40 backdrop-blur-xl rounded-lg border border-white/20 overflow-hidden shadow-2xl">
         <button 
           onClick={() => setStep((prev) => Math.max(0, prev - 1))}
           className="p-3 hover:bg-white/10 text-white/60 hover:text-white transition-colors border-r border-white/10"
